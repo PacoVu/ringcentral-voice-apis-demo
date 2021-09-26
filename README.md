@@ -41,12 +41,12 @@ MY_DEVICE_ID=Your-Softphone-Device_Id
 ```
 
 * To get a device Id, you can login the RingCentral soft-phone [Download from here. Look at the DEVELOPER SANDBOX TOOLS](https://community.ringcentral.com/spaces/144/index.html), then run the app and make a `call-out` call. Check the Terminal console to see which device is 'online' and grab the device id and put it in the .env file. Rerun the app.
-* To create a demo customer and team phone numbers, open the 'customer-numbers.json' and the 'team-numbers.json' and provide valid phone numbers.
-
 
 ## Run the demo
+
+To create a demo customer and team phone numbers, open the 'customer-numbers.json' and the 'team-numbers.json' file under the /data folder and provide valid phone numbers.
 ```
 $ node index.js
 ```
-* Open your browser and enter the local address "locahost:5000"
-* Make a call to one of the extension under your account
+* Open your browser and enter the local address "locahost:5000".
+* Click a number to dial or use your cell phone to make an inbound call to your RingCentral soft-phone.
