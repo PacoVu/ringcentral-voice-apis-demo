@@ -2,16 +2,13 @@
 How to make new calls, handle incoming calls and control active calls within your application
 
 ## Create a RingCentral application
-- ["https://developer.ringcentral.com/login.html#/"](Login or create an account</a> if you have not done so already.)
+- [Login or create an account if you have not done so already.](https://developer.ringcentral.com/login.html#/)
 - Go to Console/Apps and click 'Create App' button.
 - Select "REST API App" under "What type of app are you creating?" Click 'Next'.
 - Provide the app name and app description
 - Under "Auth" select "Password-based auth flow."
 - Under "Security" add the following permissions:
-  . Call Control
-  . Read Accounts
-  . Read Call Log
-  . Read Call Recording
+  * Call Control - Read Accounts - Read Call Log - Read Call Recording
 - Under "Security" select "This app is private and will only be callable using credentials from the same RingCentral account."
 - Click the 'Create' button.</li>
 
@@ -43,7 +40,7 @@ MY_DEVICE_ID=Your-Softphone-Device_Id
 
 ```
 
-* To get a device Id, you can login the RingCentral soft-phone [https://community.ringcentral.com/spaces/144/index.html](Download from here. Look at the DEVELOPER SANDBOX TOOLS)
+* To get a device Id, you can login the RingCentral soft-phone [Download from here. Look at the DEVELOPER SANDBOX TOOLS](https://community.ringcentral.com/spaces/144/index.html), then run the app and make a `call-out` call. Check the Terminal console to see which device is 'online' and grab the device id and put it in the .env file. Rerun the app.
 * To create a demo customer and team phone numbers, open the 'customer-numbers.json' and the 'team-numbers.json' and provide valid phone numbers.
 
 
