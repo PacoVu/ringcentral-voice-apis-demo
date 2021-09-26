@@ -1,0 +1,4 @@
+/node_modules
+/db/callreport.db
+# dotenv environment variables file
+.env

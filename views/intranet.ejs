@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>RingCentral Programmable Voice</title>
+        <link href="./img/favicon.png" type="image/vnd.microsoft.icon" rel="shortcut icon">
+        <link href="./img/favicon.png" type="image/vnd.microsoft.icon" rel="icon">
+
+        <script src="./js/jquery-3.1.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.min.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="./css/main.css">
+        <script src="js/main.js" type="text/javascript"></script>
+    </head>
+    <body onload="init()">
+      <nav class="navbar navbar-default no-border">
+        <span class="left-middle-align">
+          <span class="rclogo"><a href="/"><img alt="Brand" src="img/ringcentral.png" width="400"></a></span>&nbsp;&nbsp;
+          <span class="title">Programmable Voice APIs Demo</span>
+        </span>
+        <ul class="nav navbar-nav navbar-left left-align-nav">
+          <li class="active"><a href="/intranet">Intranet</a></li>
+          <li><a href="/internet">Internet</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+      <section id='content' style='margin-left:10px'>
+        <div class="row col-xl-12">
+          <div class="col-sm-2">
+            <div class="row col-xl-12 clickable" onclick='toggleSetting()'>Settings</div>
+            <div class="col-xl-12" id='settings' style='visibility:hidden; min-height:260px'>
+                <label class="radio-inline"><input id="auto-off" type="radio" name='automatic' value="off" checked onchange="enableAutoFunction(this)"></input> Off</label><br>
+                <label class="radio-inline"><input id="auto-reply" type="radio" name='automatic' value="reply" onchange="enableAutoFunction(this)"></input> Auto-reply</label><br>
+                <label class="radio-inline"><input id="auto-forward" type="radio" name='automatic' value="forward" onchange="enableAutoFunction(this)"></input> Auto-forward</label><br>
+                <br>
+                <div id='enter-text' style='display:none'>
+                  <label>Enter reply text</label><br>
+                  <textarea cols='30' rows='3' id='auto-reply-text' class=''>Hi {name}, I am busy right now, I will call you back in 20 mins.</textarea>
+                </div>
+                <div id='enter-number' style='display:none'>
+                  <label>Enter forward number</label><br>
+                  <input type='text' id='forward-number' class='' size='15' value='12092484775'/>
+                </div>
+                <br>
+                <button onclick="setAutoFunction()">Submit</button>&nbsp;&nbsp;
+                <button onclick="toggleSetting()">Close</button>
+            </div>
+            <div class="row col-xl-12 clickable" onclick='toggleShowReport()'>Call Reports</div>
+            <div class="row col-xl-12" id='call-report-list'>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="row col-xl-12">
+              <h1 class="highlightable" onclick="showCodeBlock('url-scheme')">URL Scheme</h1>
+              <label>My customers</label>
+              <div class='scrollable_list'>
+                <span>Dial <a href="rcapp://r/dialer?number=<%- customerNumbers[0].phoneNumber %>"><%- customerNumbers[0].name %></a></span></br>
+                <span>Call <a href="rcapp://r/call?number=<%- customerNumbers[1].phoneNumber %>"><%- customerNumbers[1].name %></a></span></br>
+                <span>Call <a href="rcapp://r/call?number=<%- customerNumbers[2].phoneNumber %>"><%- customerNumbers[2].name %></a></span>
+              </div>
+            </div>
+            <div class="row col-xl-12">
+                <h1 class="highlightable" onclick="showCodeBlock('call-out')">Call-Out</h1>
+                <div class="col-xl-12 highlightable" onclick="showCodeBlock('notifications')">Event notification code</div>
+                <div class="row col-sm-7">
+                  <label>My customers</label>
+                  <div class='scrollable-list'>
+                    <% for (var customer of customerNumbers) { %>
+                      <div class='clickable' onclick="makeCallOutCall('<%- customer.phoneNumber %>')"><%- customer.name %></div>
+                    <% } %>
+                  </div>
+                </div>
+                <div class="row col-sm-5">
+                  <label>My team</label>
+                  <div>
+                    <% for (var team of teamMembers) { %>
+                      <a href="javascript:makeCallOutCall('<%- team.phoneNumber %>')"><%- team.name %></a></br>
+                    <% } %>
+                  </div>
+                </div>
+            </div><br>
+            <div class="row col-xl-12">
+              <div id='active-call-list' class="row col-xl-12"></div>
+              <div id='blind-trans-selection' style='display:none'>
+                <select id='blind-trans-number' onchange='callBlindTransfer(this)'>
+                  <option value=''>Select a team member</option>
+                  <% for (var team of teamMembers) { %>
+                    <option value='<%- team.phoneNumber %>')><%- team.name %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div id='forward-selection' style='display:none'>
+                <select onchange='callForward(this)'>
+                  <option value=''>Select a team member</option>
+                  <% for (var team of teamMembers) { %>
+                    <option value='<%- team.phoneNumber %>')><%- team.name %></option>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+            <!--
+            <span class="col-xl-12" onmouseover="showCodeBlock('answer')">Answer</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('record')"> - Record</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('hold')"> - Hold</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('blind')"> - Blind</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('warm')"> - Warm</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('forward')"> - Forward</span>
+            <span class="col-xl-12" onmouseover="showCodeBlock('hangup')"> - Hangup</span>
+          -->
+        </div>
+        <div class="row col-sm-7">
+          <div id='demo-code' style="display: none"></div>
+        </div>
+      </div>
+      </section>
+    </body>
+</html>
