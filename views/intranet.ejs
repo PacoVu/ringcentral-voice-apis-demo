@@ -36,10 +36,10 @@
         <div class="row col-xl-12">
           <div class="col-sm-2">
             <div class="row col-xl-12 clickable" onclick='toggleSetting()'>Settings</div>
-            <div class="col-xl-12" id='settings' style='visibility:hidden; min-height:260px'>
+            <div class="col-xl-12" id='settings' style='visibility:visible; min-height:200px'>
                 <label class="radio-inline"><input id="auto-off" type="radio" name='automatic' value="off" checked onchange="enableAutoFunction(this)"></input> Off</label><br>
                 <label class="radio-inline"><input id="auto-reply" type="radio" name='automatic' value="reply" onchange="enableAutoFunction(this)"></input> Auto-reply</label><br>
-                <label class="radio-inline"><input id="auto-forward" type="radio" name='automatic' value="forward" onchange="enableAutoFunction(this)"></input> Auto-forward</label><br>
+                <label class="radio-inline"><input id="auto-forward" type="radio" name='automatic' value="forward" onchange="enableAutoFunction(this)"></input> Auto-forward</label>
                 <br>
                 <div id='enter-text' style='display:none'>
                   <label>Enter reply text</label><br>
@@ -47,12 +47,12 @@
                 </div>
                 <div id='enter-number' style='display:none'>
                   <label>Enter forward number</label><br>
-                  <input type='text' id='forward-number' class='' size='15' value='12092484775'/>
+                  <input type='text' id='forward-number' class='' size='15' value=''/>
                 </div>
                 <br>
                 <button onclick="setAutoFunction()">Submit</button>&nbsp;&nbsp;
                 <button onclick="toggleSetting()">Close</button>
-            </div>
+            </div><br>
             <div class="row col-xl-12 clickable" onclick='toggleShowReport()'>Call Reports</div>
             <div class="row col-xl-12" id='call-report-list'>
             </div>

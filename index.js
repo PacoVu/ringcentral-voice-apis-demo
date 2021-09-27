@@ -78,7 +78,9 @@ platform.on(platform.events.loginSuccess, async function(resp){
     subscribe_for_telephony_notification()
     eventEngine = new EventHandler(tokenObj.owner_id, customerNumbers)
     /** Comment out the 2 lines above and uncomment the line below to clean
-    *** up pending subscriptions if you run and stop the code many times!
+    *** up pending subscriptions if you run and stop the code many times
+    *** in a short period (few mins) of time!
+    *** Return the code to original to continue testing the app.
     ***/
     //read_delete_subscription()
 });
@@ -211,6 +213,7 @@ async function callAutoReply(telSessionId, partyId, customizedText){
 
 async function callAutoForward(telSessionId, partyId, phoneNumber){
   var endpoint = `/restapi/v1.0/account/~/telephony/sessions/${telSessionId}/parties/${partyId}/forward`
+  phoneNumber = (phoneNumber.indexOf('+') >= 0) ? phoneNumber : `+${phoneNumber}`
   var params = {
     phoneNumber: phoneNumber
   }
@@ -250,7 +253,7 @@ async function get_extension_devices(res, customerNumber) {
     var resp = await platform.get('/restapi/v1.0/account/~/extension/~/device')
     var jsonObj = await resp.json()
     for (var record of jsonObj.records){
-      console.log(record.status)
+      console.log(record)
       if (record.status == "Online" && record.id == process.env.MY_DEVICE_ID){
         return await call_out(res, customerNumber, record.id)
       }
@@ -389,7 +392,7 @@ async function controlCall(res, body){
         var resp = await platform.get('/restapi/v1.0/account/~/extension/~/device')
         var jsonObj = await resp.json()
         for (var record of jsonObj.records){
-          if (record.status == "Online" && record.id == "42954004"){
+          if (record.status == "Online" && record.id == process.env.MY_DEVICE_ID){
             var endpoint = `/restapi/v1.0/account/~/telephony/sessions/${body.telSessionId}/parties/${body.partyId}/answer`
             var params = {
               deviceId: record.id

@@ -16,15 +16,11 @@ function updateData(){
       var html = ''
       for (var call of res.activeCalls){
         if (call.status == "NO-CALL" || call.status == "Gone"){
-          callReport.unshift(call)
-          makeCallReports()
-          /*
           var cr = callReport.find(o => o.sessionId == call.sessionId)
           if (!cr){
             callReport.unshift(call)
             makeCallReports()
           }
-          */
         }else {
           html += '<div class="row col-xl-12 phone-block">'
           html += makeActiveCallBlock(call)
@@ -227,7 +223,7 @@ function setAutoFunction(){
     params.text = $('#auto-reply-text').val()
   else if (option == 'forward')
     params.text = $('#forward-number').val()
-  toggleSetting()
+
   var url = `/set-auto-function`
   var posting = $.post( url, params );
   posting.done(function( res ) {
@@ -747,7 +743,7 @@ async function warmTransfer(res, body){\n\
 }"
       break
     case 'hangup':
-code += "/**** CLIENT CODE - HANDUP ****/\n\
+code += "/**** CLIENT CODE - HANGUP ****/\n\
 function hangup(telSessionId){\n\
   var activeCall = activeCalls.find(o => o.telSessionId == telSessionId)\n\
   if (activeCall){\n\
