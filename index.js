@@ -127,7 +127,7 @@ subscription.on(subscription.events.notification, function(msg) {
       callAutoReply(body.telephonySessionId, party.id, customizedText)
     }
   }else if (autoFunction.autoForward && party.direction == 'Inbound'){
-    if (party.status.code == 'Proceeding'){
+    if (party.status.code == 'Setup' || party.status.code == 'Proceeding'){
       callAutoForward(body.telephonySessionId, party.id, autoFunction.text)
     }
   }
